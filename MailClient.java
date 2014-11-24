@@ -17,22 +17,35 @@ public class MailClient
     {
         MailItem item;
         item = server.getNextMailItem(user);
-        return item;
+        
+        if (item==null)
+        {
+            System.out.println("No hay mensajes nuevos");
+        }
+      
+        return item;   
     }
     
     public void printNextMailItem()
     {
-        server.getNextMailItem(user).print();
+        MailItem item;
+        item = server.getNextMailItem(user);
+        
+        if (item==null)
+        {
+            System.out.println("No hay mensajes nuevos");
+        }
+        else 
+        {                
+            item.print();
+        }        
     }
     
     public void sendMailItem(String para, String mensaje)
     {
         MailItem emilio;
         emilio = new MailItem(user, para, mensaje);
-        server.post(emilio);
-        
-        
-        
+        server.post(emilio);                        
     }
     
 }
