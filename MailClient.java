@@ -40,10 +40,10 @@ public class MailClient
             }        
         }
         
-    public void sendMailItem(String para, String mensaje)
+    public void sendMailItem(String para, String subject, String message)
         {
             MailItem emilio;
-            emilio = new MailItem(user, para, mensaje);
+            emilio = new MailItem(user, para, subject, message);
             server.post(emilio);                        
         }            
     }

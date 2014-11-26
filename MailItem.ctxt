@@ -1,6 +1,6 @@
 #BlueJ class context
-comment0.params=from\ to\ message
-comment0.target=MailItem(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment0.params=from\ to\ subject\ message
+comment0.target=MailItem(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
 comment1.params=
 comment1.target=java.lang.String\ getFrom()
 comment2.params=
@@ -8,5 +8,7 @@ comment2.target=java.lang.String\ getMessage()
 comment3.params=
 comment3.target=java.lang.String\ getTo()
 comment4.params=
-comment4.target=void\ print()
-numComments=5
+comment4.target=java.lang.String\ getSubject()
+comment5.params=
+comment5.target=void\ print()
+numComments=6
