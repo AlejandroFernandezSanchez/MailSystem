@@ -51,4 +51,5 @@ public class MailItem
         System.out.println("message: " + message);
     }
     
+    
 }

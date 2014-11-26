@@ -25,9 +25,20 @@ public class MailClient
         return item;                
     }
     
-    public int howManyMails()
+    public void howManyMails()
     {
-        return server.howManyMailItems(user);
+        System.out.println("Tienes "+ server.howManyMailItems(user) + " mensaje/s nuevo/s" );  
+    }
+    
+    public void getNextMailItemAndAutorespond()
+    {
+        MailItem item;
+        item = server.getNextMailItem(user);
+        String newSubject = "RE: " + item.getSubject();
+        String newMessage = ""+ item.getMessage() + "\n ###########AUTORESPUESTA###########\n###########ESTAMOS DE VACACIONES###########";
+        MailItem newMail = new MailItem(item.getTo(), item.getFrom(), newSubject, newMessage) ;
+        server.post(newMail);
+        
     }
     
     public void printNextMailItem()
