@@ -24,7 +24,12 @@ public class MailClient
         }       
         return item;                
     }
-       
+    
+    public int howManyMails()
+    {
+        return server.howManyMailItems(user);
+    }
+    
     public void printNextMailItem()
         {
             MailItem item;
