@@ -13,11 +13,11 @@ public class MailItem
     
     private String message;
     
-    public MailItem(String de, String destino, String mensaje)
+    public MailItem(String from, String to, String message)
     {
-        message=mensaje;
-        to=destino;
-        from=de;
+        this.message=message;
+        this.to=to;
+        this.from=from;
     }
     
     public String getFrom()

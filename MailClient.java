@@ -6,46 +6,44 @@ public class MailClient
     
     private String user;
         
-    public MailClient(MailServer servidor, String usuario)
+    public MailClient(MailServer server, String user)
     {
-       user=usuario;
-       server=servidor;
+       this.user=user;
+       this.server=server;
     }
-
-   
+    
+       
     public MailItem getNextMailItem()
-    {
+        {
         MailItem item;
         item = server.getNextMailItem(user);
         
         if (item==null)
         {
             System.out.println("No hay mensajes nuevos");
-        }
-      
-        return item;   
+        }       
+        return item;                
     }
-    
+       
     public void printNextMailItem()
-    {
-        MailItem item;
-        item = server.getNextMailItem(user);
-        
-        if (item==null)
         {
-            System.out.println("No hay mensajes nuevos");
+            MailItem item;
+            item = server.getNextMailItem(user);
+            
+            if (item==null)
+            {
+                System.out.println("No hay mensajes nuevos");
+            }
+            else 
+            {                
+                item.print();
+            }        
         }
-        else 
-        {                
-            item.print();
-        }        
-    }
-    
+        
     public void sendMailItem(String para, String mensaje)
-    {
-        MailItem emilio;
-        emilio = new MailItem(user, para, mensaje);
-        server.post(emilio);                        
+        {
+            MailItem emilio;
+            emilio = new MailItem(user, para, mensaje);
+            server.post(emilio);                        
+        }            
     }
-    
-}

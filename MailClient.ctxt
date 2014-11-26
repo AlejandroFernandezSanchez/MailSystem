@@ -1,5 +1,5 @@
 #BlueJ class context
-comment0.params=servidor\ usuario
+comment0.params=server\ user
 comment0.target=MailClient(MailServer,\ java.lang.String)
 comment1.params=
 comment1.target=MailItem\ getNextMailItem()
