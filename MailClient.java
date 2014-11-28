@@ -20,10 +20,24 @@ public class MailClient
         MailItem item;
         item = server.getNextMailItem(user);
         
-        if (item==null)
+        String spam1 = "viagra";
+        String spam2 = "oferta";  
+        boolean found = false ;
+        
+         if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
         {
-            System.out.println("No hay mensajes nuevos");
-        }       
+            found = true;
+        }
+        
+          if (found==true)
+        {
+            item=null;
+        }
+        else
+        {
+            savedMail= item;
+        }                          
+        
         return item;                
     }
     
@@ -65,20 +79,34 @@ public class MailClient
     }
     
     public void printNextMailItem()
+    {
+        MailItem item;
+        item = server.getNextMailItem(user);
+        savedMail= item;
+        
+        String spam1 = "viagra";
+        String spam2 = "oferta";  
+        boolean found = false ;
+        
+        if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
         {
-            MailItem item;
-            item = server.getNextMailItem(user);
-            savedMail= item;
-            
-            if (item==null)
-            {
-                System.out.println("No hay mensajes nuevos");
-            }
-            else 
-            {                
-                item.print();
-            }        
+            found = true;
         }
+                      
+        if (item==null)
+        {
+            System.out.println("No hay mensajes nuevos");
+        }
+        else if (found==true)
+        {
+            System.out.println("Este mensaje contenía spam");
+        }
+        else
+        {                
+            savedMail= item;
+            item.print();
+        }            
+    }
         
     public void sendMailItem(String para, String subject, String message)
         {
