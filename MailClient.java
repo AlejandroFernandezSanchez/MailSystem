@@ -8,6 +8,16 @@ public class MailClient
     
     private MailItem savedMail;
     
+    private int sendCount;
+    
+    private int receivedCount;
+    
+    private int spamCount;
+    
+    private int longestInt;
+    
+    private String longestUser;
+    
     
     public MailClient(MailServer server, String user)
     {
@@ -27,7 +37,7 @@ public class MailClient
         boolean found = false ;
         boolean found2 = false ;
         
-         if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
+        if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
         {
             found = true;
         }
@@ -37,21 +47,65 @@ public class MailClient
             found2 = true;
         }
         
-          if ((found==true)&&(found2==false))
+        if ((found==true)&&(found2==false))
         {
             item=null;
+            spamCount = spamCount +1;
+            receivedCount = receivedCount +1;
+              if (item.getMessage().length()>longestInt)
+            {
+                longestInt = item.getMessage().length();
+                longestUser = item.getFrom();
+            }
         }
         else
         {
             savedMail= item;
+            receivedCount = receivedCount +1;
+              if (item.getMessage().length()>longestInt)
+            {
+                longestInt = item.getMessage().length();
+                longestUser = item.getFrom();
+            }
         }                          
         
         return item;                
     }
     
+    public void tester(int sendCount, int receivedCount, int spamCount, int longestInt, String longestUser)
+    {
+        this.sendCount= sendCount;
+        this.receivedCount = receivedCount;
+        this.spamCount = spamCount;
+        this.longestInt = longestInt;
+        this.longestUser = longestUser;
+    }
+    
     public void howManyMails()
     {
         System.out.println("Tienes "+ server.howManyMailItems(user) + " mensaje/s nuevo/s" );  
+    }
+    
+    public void statics()
+    {
+        System.out.println("ESTADÍSTICAS");
+        System.out.println("Mensajes recibidos en total: " + receivedCount + "." );
+        System.out.println("Mensajes recibidos descartados por spam: "+ spamCount + ".");
+        
+        if (spamCount>0)
+        {
+            System.out.println(spamCount*100/receivedCount + "% de los correos son spam");
+        }        
+        
+        System.out.println("Mensajes enviados: " +sendCount);
+        
+        if (longestInt>0)
+        {
+            System.out.println("El mensaje más largo recibido hasta ahora es de " +longestUser+ ", con " +longestInt+ " carácteres.");
+        }
+        
+    
+    
     }
     
     public void getNextMailItemAndAutorespond()
@@ -65,7 +119,13 @@ public class MailClient
             "###########AUTORESPUESTA###########" +
             "\n###########ESTAMOS DE VACACIONES###########";
             MailItem newMail = new MailItem(item.getTo(), item.getFrom(), newSubject, newMessage) ;
-            server.post(newMail);            
+            server.post(newMail);
+            receivedCount = receivedCount +1;
+              if (item.getMessage().length()>longestInt)
+            {
+                longestInt = item.getMessage().length();
+                longestUser = item.getFrom();
+            }
         }
         else
         {
@@ -113,11 +173,25 @@ public class MailClient
         else if ((found==true)&&(found2==false))
         {
             System.out.println("Este mensaje contenía spam");
+            spamCount = spamCount +1;
+            receivedCount = receivedCount +1;
+              if (item.getMessage().length()>longestInt)
+            {
+                longestInt = item.getMessage().length();
+                longestUser = item.getFrom();
+            }           
         }
         else
         {                
             savedMail= item;
             item.print();
+            receivedCount = receivedCount +1;
+            if (item.getMessage().length()>longestInt)
+            {
+                longestInt = item.getMessage().length();
+                longestUser = item.getFrom();
+            }
+            
         }            
     }
         
@@ -125,6 +199,7 @@ public class MailClient
         {
             MailItem emilio;
             emilio = new MailItem(user, para, subject, message);
-            server.post(emilio);                        
+            server.post(emilio);
+            sendCount = sendCount +1;
         }            
     }
