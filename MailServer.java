@@ -63,8 +63,12 @@ public class MailServer
      * Add the given mail item to the message list.
      * @param item The mail item to be stored on the server.
      */
-    public void post(MailItem item)
+    public void post(MailItem item, int carNum)
     {
-        items.add(item);
+        MailItem sendItem = item;
+        if (item.getMessage().length()==carNum)
+        {
+            items.add(item);
+        }        
     }
 }

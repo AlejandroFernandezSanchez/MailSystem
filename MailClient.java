@@ -122,7 +122,7 @@ public class MailClient
             "###########AUTORESPUESTA###########" +
             "\n###########ESTAMOS DE VACACIONES###########";
             MailItem newMail = new MailItem(item.getTo(), item.getFrom(), newSubject, newMessage) ;
-            server.post(newMail);
+            server.post(newMail, newMessage.length());
             receivedCount = receivedCount +1;
               if (item.getMessage().length()>longestInt)
             {
@@ -170,46 +170,53 @@ public class MailClient
         String noSpam = "proyecto";
         boolean found = false ;
         boolean found2 = false ;
-        
-        if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
-        {
-            found = true;
-        }
-              
-        if (item.getMessage().contains(noSpam))
-        {
-            found2 = true;
-        }
-        
+       
         if (item==null)
         {
             System.out.println("No hay mensajes nuevos");
         }
-        else if ((found==true)&&(found2==false))
-        {
-            savedSpam = item;
-            System.out.println("Este mensaje contenía spam");
-            spamCount = spamCount +1;
-            receivedCount = receivedCount +1;
-              if (item.getMessage().length()>longestInt)
-            {
-                longestInt = item.getMessage().length();
-                longestUser = item.getFrom();
-            }           
-        }
         else
-        {                
-            savedMail= item;
-            item.print();
-            receivedCount = receivedCount +1;
-            
-            if (item.getMessage().length()>longestInt)
+        {
+             
+            if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
             {
-                longestInt = item.getMessage().length();
-                longestUser = item.getFrom();
+                found = true;
+            }
+                      
+            if (item.getMessage().contains(noSpam))
+            {
+                found2 = true;
             }
             
-        }            
+                if ((found==true)&&(found2==false))
+            {                                            
+                savedSpam = item;
+                System.out.println("Este mensaje contenía spam");
+                spamCount = spamCount +1;
+                receivedCount = receivedCount +1;
+                  if (item.getMessage().length()>longestInt)
+                {
+                    longestInt = item.getMessage().length();
+                    longestUser = item.getFrom();
+                }  
+                    
+            }
+            else
+            {                
+                savedMail= item;
+                item.print();
+                receivedCount = receivedCount +1;
+                
+                if (item.getMessage().length()>longestInt)
+                {
+                    longestInt = item.getMessage().length();
+                    longestUser = item.getFrom();
+                }
+                
+            }            
+            
+        }
+        
     }
         
     public void sendMailItemWithTransmissionError(String para, String subject, String message)
@@ -218,7 +225,7 @@ public class MailClient
         transError = transError.replace("a", "#&");
         transError = transError.replace("e", "$#");
         MailItem emilio = new MailItem(user, para, subject, transError);
-        server.post(emilio);
+        server.post(emilio, message.length());
         sendCount = sendCount +1;
     }   
     
@@ -226,7 +233,7 @@ public class MailClient
     {
         MailItem emilio;
         emilio = new MailItem(user, para, subject, message);
-        server.post(emilio);
+        server.post(emilio, message.length());
         sendCount = sendCount +1;
     }            
 }
