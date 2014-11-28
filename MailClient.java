@@ -8,6 +8,7 @@ public class MailClient
     
     private MailItem savedMail;
     
+    
     public MailClient(MailServer server, String user)
     {
        this.user=user;
@@ -22,14 +23,21 @@ public class MailClient
         
         String spam1 = "viagra";
         String spam2 = "oferta";  
+        String noSpam = "proyecto";
         boolean found = false ;
+        boolean found2 = false ;
         
          if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
         {
             found = true;
         }
         
-          if (found==true)
+        if (item.getMessage().contains(noSpam))
+        {
+            found2 = true;
+        }
+        
+          if ((found==true)&&(found2==false))
         {
             item=null;
         }
@@ -81,23 +89,28 @@ public class MailClient
     public void printNextMailItem()
     {
         MailItem item;
-        item = server.getNextMailItem(user);
-        savedMail= item;
-        
+        item = server.getNextMailItem(user);                
         String spam1 = "viagra";
         String spam2 = "oferta";  
+        String noSpam = "proyecto";
         boolean found = false ;
+        boolean found2 = false ;
         
         if (item.getMessage().contains(spam1) || item.getMessage().contains(spam2))
         {
             found = true;
         }
-                      
+              
+        if (item.getMessage().contains(noSpam))
+        {
+            found2 = true;
+        }
+        
         if (item==null)
         {
             System.out.println("No hay mensajes nuevos");
         }
-        else if (found==true)
+        else if ((found==true)&&(found2==false))
         {
             System.out.println("Este mensaje contenía spam");
         }
