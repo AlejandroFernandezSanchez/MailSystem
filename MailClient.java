@@ -8,6 +8,8 @@ public class MailClient
     
     private MailItem savedMail;
     
+    private MailItem savedSpam;
+    
     private int sendCount;
     
     private int receivedCount;
@@ -49,6 +51,7 @@ public class MailClient
         
         if ((found==true)&&(found2==false))
         {
+            savedSpam = item;
             item=null;
             spamCount = spamCount +1;
             receivedCount = receivedCount +1;
@@ -146,6 +149,18 @@ public class MailClient
         }
     }
     
+    public void getLastSpam()
+    {
+       if (savedSpam!=null)
+       {
+           savedSpam.print();
+        }
+        else
+        {
+            System.out.println("No hay ningún mensaje de spam");
+        }
+    }
+    
     public void printNextMailItem()
     {
         MailItem item;
@@ -172,6 +187,7 @@ public class MailClient
         }
         else if ((found==true)&&(found2==false))
         {
+            savedSpam = item;
             System.out.println("Este mensaje contenía spam");
             spamCount = spamCount +1;
             receivedCount = receivedCount +1;
