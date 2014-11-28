@@ -202,6 +202,7 @@ public class MailClient
             savedMail= item;
             item.print();
             receivedCount = receivedCount +1;
+            
             if (item.getMessage().length()>longestInt)
             {
                 longestInt = item.getMessage().length();
@@ -211,11 +212,21 @@ public class MailClient
         }            
     }
         
+    public void sendMailItemWithTransmissionError(String para, String subject, String message)
+    {
+        String transError = message;        
+        transError = transError.replace("a", "#&");
+        transError = transError.replace("e", "$#");
+        MailItem emilio = new MailItem(user, para, subject, transError);
+        server.post(emilio);
+        sendCount = sendCount +1;
+    }   
+    
     public void sendMailItem(String para, String subject, String message)
-        {
-            MailItem emilio;
-            emilio = new MailItem(user, para, subject, message);
-            server.post(emilio);
-            sendCount = sendCount +1;
-        }            
-    }
+    {
+        MailItem emilio;
+        emilio = new MailItem(user, para, subject, message);
+        server.post(emilio);
+        sendCount = sendCount +1;
+    }            
+}
