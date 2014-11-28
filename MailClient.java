@@ -5,7 +5,9 @@ public class MailClient
     private MailServer server;
     
     private String user;
-        
+    
+    private MailItem savedMail;
+    
     public MailClient(MailServer server, String user)
     {
        this.user=user;
@@ -32,19 +34,41 @@ public class MailClient
     
     public void getNextMailItemAndAutorespond()
     {
-        MailItem item;
+        MailItem item;      
         item = server.getNextMailItem(user);
-        String newSubject = "RE: " + item.getSubject();
-        String newMessage = ""+ item.getMessage() + "\n ###########AUTORESPUESTA###########\n###########ESTAMOS DE VACACIONES###########";
-        MailItem newMail = new MailItem(item.getTo(), item.getFrom(), newSubject, newMessage) ;
-        server.post(newMail);
+        savedMail= item;
+        if (item!=null){            
+            String newSubject = "RE: " + item.getSubject();
+            String newMessage = ""+ item.getMessage() + "\n" +
+            "###########AUTORESPUESTA###########" +
+            "\n###########ESTAMOS DE VACACIONES###########";
+            MailItem newMail = new MailItem(item.getTo(), item.getFrom(), newSubject, newMessage) ;
+            server.post(newMail);            
+        }
+        else
+        {
+            System.out.println("No hay mensajes nuevos");
+        }
         
+    }
+    
+    public void getLastMail()
+    {
+       if (savedMail!=null)
+       {
+           savedMail.print();
+        }
+        else
+        {
+            System.out.println("No hay ningún mensaje");
+        }
     }
     
     public void printNextMailItem()
         {
             MailItem item;
             item = server.getNextMailItem(user);
+            savedMail= item;
             
             if (item==null)
             {
